@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="picker_view_height">160dp</dimen>
+    <dimen name="date_unit_text_size">18sp</dimen>
+    <dimen name="input_phone_hint_text_size">20dp</dimen>
+    <dimen name="phone_place_query_text_size">18dp</dimen>
+</resources>

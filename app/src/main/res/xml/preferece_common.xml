@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="通用">
+        <ListPreference
+            android:key="text_size"
+            android:title="设置字体大小"
+            android:summary="选择系统字体大小"
+            android:defaultValue="1.0f"
+            android:entries="@array/text_size"
+            android:entryValues="@array/text_size_set">
+        </ListPreference>
+        <SwitchPreference
+            android:key="start_orientation_screen"
+            android:title="开启横屏"
+            android:summary="为ActivityStudent设置横屏"
+            android:defaultValue="false">
+        </SwitchPreference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

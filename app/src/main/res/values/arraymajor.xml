@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="majors">
+        <item>电气工程</item>
+        <item>电机工程</item>
+    </string-array>
+</resources>

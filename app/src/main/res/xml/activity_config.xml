@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header android:fragment="com.example.asus.studentmgr.ActivityConfig$mainFragment"
+        android:title="账号与安全"
+        android:summary="设置账号和密码，自动填入登录框">
+    </header>
+    <header
+        android:fragment="com.example.asus.studentmgr.ActivityConfig$commonUseFragment"
+        android:title="通用"
+        android:summary="横屏操作和字体大小">
+    </header>
+    <header android:fragment="com.example.asus.studentmgr.ActivityConfig$aboutFragment"
+        android:title="关于"
+        android:summary="本应用程序功能介绍">
+
+    </header>
+</preference-headers>

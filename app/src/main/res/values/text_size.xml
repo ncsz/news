@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="text_size">
+        <item>1倍</item>
+        <item>1.2倍</item>
+        <item>1.5倍</item>
+        <item>1.8倍</item>
+        <item>2.0倍</item>
+    </string-array>
+    <string-array name="text_size_set">
+        <item>1.0f</item>
+        <item>1.2f</item>
+        <item>1.5f</item>
+        <item>1.8f</item>
+        <item>2.0f</item>
+    </string-array>
+</resources>

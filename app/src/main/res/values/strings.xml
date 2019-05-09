@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">StudentMgr</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="cancel">取消</string>
+    <string name="title">请选择时间</string>
+    <string name="confirm">确定</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+    <string name="select_date">选择日期</string>
+    <string name="current_date">当前日期</string>
+    <string name="select_time">选择时间</string>
+    <string name="current_time">当前时间</string>
+
+
+    <string name="attribution_phone_query">号码归属地查询</string>
+    <string name="attribution_phone_input">输入手机号码查询</string>
+    <string name="attribution_query">查询</string>
+    <string name="attribution_result">查询结果</string>
+    <string name="attribution_number">手机号码：</string>
+    <string name="attribution_province_country">归属地:</string>
+    <string name="attribution_carrier">运营商:</string>
+    <string name="attribution_owner_carrier">归属运营商: </string>
+    <string name="attribution_return_null">返回数据为空</string>
+    <string name="attribution_no_result">查询不到.....</string>
+    <string name="input_no_empty">输入框不能为空</string>
+    <string name="about_infor">该APP有查看学生信息，增加、编辑、删除学生信息功能；有归属地查询功能；有广告页面，登录功能</string>
+</resources>

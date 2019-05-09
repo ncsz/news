@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:text="@string/attribution_phone_query"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/input_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:background="@null"
+        android:hint="@string/attribution_phone_input"
+        android:inputType="phone"
+        android:maxLines="1"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0"
+        android:layout_marginTop="20dp">
+        <TableRow>
+            <TextView
+                android:id="@+id/query_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/attribution_result"
+                android:textStyle="italic" />
+            <Button
+                android:id="@+id/copy_phone_infor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="复制"
+                android:background="@color/lightGrey"
+                android:textColor="@android:color/holo_red_light"/>
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/return_result"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:text="返回结果"
+                android:layout_marginStart="100dp"
+                android:visibility="invisible"
+                android:background="@color/lightGrey">
+
+            </Button>
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp">
+
+        <ImageView
+            android:id="@+id/carrier_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/icon_question_phone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="33dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="@string/attribution_number" />
+
+            <TextView
+                android:id="@+id/phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="@string/attribution_province_country" />
+
+            <TextView
+                android:id="@+id/place_province_country"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="@string/attribution_carrier" />
+
+            <TextView
+                android:id="@+id/carrier"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="@string/attribution_owner_carrier" />
+
+            <TextView
+                android:id="@+id/place_carrier"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" />
+    </LinearLayout>
+
+</LinearLayout>
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="0,1,2">
+    <TableRow>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@android:dimen/notification_large_icon_height">
+        </TextView>
+    </TableRow>
+    <TableRow>
+        <TextView />
+        <EditText
+            android:id="@+id/phone_inputing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/input_phone"
+            android:textSize="@dimen/input_phone_hint_text_size">
+
+        </EditText>
+        <TextView />
+    </TableRow>
+    <TableRow>
+        <TextView />
+    </TableRow>
+    <TableRow>
+        <TextView />
+        <Button
+            android:id="@+id/phone_query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_place_query"
+            android:textSize="@dimen/phone_place_query_text_size">
+
+        </Button>
+    </TableRow>
+    <TextView />
+</TableLayout>
+</LinearLayout>-->
