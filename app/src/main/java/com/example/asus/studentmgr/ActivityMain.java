@@ -6,6 +6,8 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,6 +34,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
@@ -65,6 +68,7 @@ public class ActivityMain extends Activity {
     float downX, downY;
     float screenWidth, screenHeight;
     private boolean mIsExit;
+    private ClipboardManager clipboardManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +100,7 @@ public class ActivityMain extends Activity {
         menu.setHeaderTitle("操作");
         menu.add(1, 1, 1, "编辑");
         menu.add(1, 2, 1, "删除");
+        menu.add(1,3,1,"复制");
     }
     //重写，执行编辑和删除
     public boolean onContextItemSelected(MenuItem item) {
@@ -115,6 +120,13 @@ public class ActivityMain extends Activity {
             case 2:
                 listView = findViewById((R.id.mylist));
                 Dialog(listView);
+            case 3:
+                listView = findViewById((R.id.mylist));
+                final LinearLayout main=(LinearLayout) listView.getChildAt(position);
+                final TextView ID=(TextView)main.findViewById(R.id.ID) ;
+                clipboardManager=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                clipboardManager.setPrimaryClip(ClipData.newPlainText(null,ID.getText().toString()));
+                break;
             default:
                 break;
         }
@@ -130,10 +142,9 @@ public class ActivityMain extends Activity {
                     ImageView image = (ImageView) view;
                     byte[] byteArr = cursor.getBlob(columnIndex);
                     image.setImageBitmap(BitmapFactory.decodeByteArray(byteArr, 0, byteArr.length));
-                    //image.setImageBitmap(decodeImage(byteArr));
                 }
                 else if(cursor.getColumnIndex("ID")==columnIndex){
-                    TextView ID=(TextView)view;
+                    TextView ID=(TextView) view;
                     ID.setText(cursor.getString(columnIndex));
                 }
                 else if(cursor.getColumnIndex("name")==columnIndex){

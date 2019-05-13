@@ -38,7 +38,11 @@
         <activity android:name=".ActivityLogin"
             android:windowSoftInputMode="stateHidden"
             android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ActivityAds"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
@@ -52,18 +56,19 @@
 
         </activity>
         <activity android:name=".test">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <provider
             android:authorities="com.example.asus.studentmgr.StudentProvider"
             android:name=".StudentProvider"
             android:exported="true">
-
         </provider>
+        <receiver android:name=".Service.StudentRecordBroadcastReceiver">
+
+        </receiver>
+        <service android:name=".Service.ClipboardMonitorService">
+
+        </service>
     </application>
 
 </manifest>

@@ -7,6 +7,8 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.VoiceInteractor;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -53,6 +55,7 @@ import java.io.ObjectStreamException;
 import java.io.PrintStream;
 import java.util.List;
 
+import static com.example.asus.studentmgr.Service.ClipboardMonitorService.HAS_STUDENT_RECORD;
 import static com.example.asus.studentmgr.test.RC_CHOOSE_PHOTO;
 
 /**
@@ -69,6 +72,7 @@ public  class ActivityStudent extends Activity implements View.OnClickListener{
     private ArrayAdapter<String> adapterMajor;
     private SpinnerAdapter spinnerCollegeAdapter;
     private Student studentEdit,studentTakeValue;
+    private String ID;
     private int position;
     //private AlertDialog.Builder builder;
     private TextView birthday;
@@ -96,6 +100,10 @@ public  class ActivityStudent extends Activity implements View.OnClickListener{
         spinnerCollege.setOnItemSelectedListener(new spinnerCollegeOnItemSelectedListener());
         Intent intent=getIntent();
         position=intent.getIntExtra("EditID",-1);
+        ID=intent.getStringExtra("ID");
+        if(ID!=null){
+            editTextID.setText(ID);
+        }
         studentEdit=(Student)intent.getSerializableExtra("EditStudentInfor");
         if(studentEdit!=null){
             SetView(studentEdit);
@@ -153,6 +161,9 @@ public  class ActivityStudent extends Activity implements View.OnClickListener{
         intent.putExtras(bundle);
     }
     private byte[] getBitmapByte(Drawable drawable) {
+        if(drawable==null){
+            drawable=getResources().getDrawable(R.drawable.add);
+        }
         Bitmap bitmap = Bitmap.createBitmap(
                 drawable.getIntrinsicWidth(),
                 drawable.getIntrinsicHeight(),

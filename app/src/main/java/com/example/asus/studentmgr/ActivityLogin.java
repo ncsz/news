@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.asus.studentmgr.Service.ClipboardMonitorService;
+import com.example.asus.studentmgr.Service.StudentRecordBroadcastReceiver;
 
 /**
  * Created by asus on 2019/4/17.
@@ -26,6 +30,7 @@ public class ActivityLogin extends SizeConfig {
     private EditText editText1;
     private EditText editText2;
     private InputMethodManager inputMethodManager;
+    private Intent intent;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -61,6 +66,11 @@ public class ActivityLogin extends SizeConfig {
                 },0);
             }
         });
+        IntentFilter intentFilter=new IntentFilter(ClipboardMonitorService.HAS_STUDENT_RECORD);
+        StudentRecordBroadcastReceiver studentRecordBroadcastReceiver=new StudentRecordBroadcastReceiver();
+        registerReceiver(studentRecordBroadcastReceiver,intentFilter);
+        intent=new Intent(this, ClipboardMonitorService.class);
+        startService(intent);
     }
     private void ErrorLoginDialog(){
         builder=new AlertDialog.Builder(this);
@@ -88,5 +98,10 @@ public class ActivityLogin extends SizeConfig {
                 }
                 inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(),0);
         }
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        stopService(intent);
     }
 }
