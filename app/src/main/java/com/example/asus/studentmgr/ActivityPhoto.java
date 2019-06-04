@@ -31,7 +31,7 @@ import java.util.List;
  * Created by asus on 2019/5/6.
  */
 
-public class test extends Activity {
+public class ActivityPhoto extends Activity {
     public static final int RC_CHOOSE_PHOTO = 2;
     private  static  List<Bitmap> bitmaps;
     private RecyclerView recyclerView=null;
@@ -46,9 +46,9 @@ public class test extends Activity {
         setContentView(R.layout.image_choose);
         bitmap=null;
         recyclerView=findViewById(R.id.recycler);
-        bitmaps=ImageFinder.getImages(test.this,null);
-        bitmaps.add(BitmapFactory.decodeResource(test.this.getResources(),R.drawable.add));
-        recyclerView.setLayoutManager(new GridLayoutManager(test.this,3));
+        bitmaps=ImageFinder.getImages(ActivityPhoto.this,null);
+        bitmaps.add(BitmapFactory.decodeResource(ActivityPhoto.this.getResources(),R.drawable.add));
+        recyclerView.setLayoutManager(new GridLayoutManager(ActivityPhoto.this,3));
         adapter=new Adapter(bitmaps);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemLongClickListener(new myOnLongClickListener());
@@ -69,18 +69,32 @@ public class test extends Activity {
         @Override
         public void onItemClick(View view, int position, Bitmap data) {
             if(position==bitmaps.size()-1){
-                if(ContextCompat.checkSelfPermission(test.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
-                    //未授权，申请授权(从相册选择图片需要读取存储卡的权限)
-                    ActivityCompat.requestPermissions(test.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, RC_CHOOSE_PHOTO);
-                }
-                else {
-                    //已授权，获取照片
-                    choosePhoto();
-                }
+                choosePhoto();
             }
             else {
                 pictureAdapter = new PictureAdapter(data);
-                zoomImageFromThumb(view, data);
+                LayoutInflater inflater=(LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                View views=inflater.inflate(R.layout.image_big_show, null);
+
+                // 加载显示大图的ImageView
+                final ImageView expandedImageView = (ImageView) views.findViewById(
+                        R.id.big_image);
+                expandedImageView.setImageBitmap(null);
+                recyclerView=findViewById(R.id.recycler);
+                recyclerView.setLayoutManager(new GridLayoutManager(ActivityPhoto.this,1));
+                recyclerView.setAdapter(pictureAdapter);
+                pictureAdapter.setOnItemClickListener(new PictureAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position, Bitmap data) {
+                        recyclerView=findViewById(R.id.recycler);
+                        recyclerView.setLayoutManager(new GridLayoutManager(ActivityPhoto.this,3));
+                        recyclerView.setAdapter(adapter);
+                        adapter.setOnItemLongClickListener(new myOnLongClickListener());
+                        adapter.setOnItemClickListener(new myOnClickListener());
+                    }
+                });
+                //zoomImageFromThumb(view, data);
             }
         }
     }
@@ -88,7 +102,7 @@ public class test extends Activity {
         @Override
         public void  onItemLongClick(View view, int position, Bitmap data){
             bitmap=bitmaps.get(position);
-            Intent intent=new Intent(test.this,ActivityStudent.class);
+            Intent intent=new Intent(ActivityPhoto.this,ActivityStudent.class);
             startActivity(intent);
         }
     }
@@ -104,11 +118,10 @@ public class test extends Activity {
             case RC_CHOOSE_PHOTO:
             {
                 Bitmap bitmap =null;
-                bitmap = ImageUtils.handleImageOnKitKat(test.this, data);
-                if(bitmap==null){
-                    bitmap=BitmapFactory.decodeResource(test.this.getResources(),R.drawable.add);
+                bitmap = ImageUtils.handleImageOnKitKat(ActivityPhoto.this, data);
+                if(bitmap!=null){
+                    bitmaps.add(bitmaps.size()-1,bitmap);
                 }
-                bitmaps.add(bitmaps.size()-1,bitmap);
                 adapter=new Adapter(bitmaps);
                 recyclerView=findViewById(R.id.recycler);
                 recyclerView.setAdapter(adapter);

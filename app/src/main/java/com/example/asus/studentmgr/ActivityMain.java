@@ -12,19 +12,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,22 +33,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.SoftReference;
+import com.example.asus.studentmgr.View.ToastView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 public class ActivityMain extends Activity {
     private ArrayList<Student> student = new ArrayList<>();
@@ -243,6 +237,55 @@ public class ActivityMain extends Activity {
             case R.id.config:
                 Intent intent2=new Intent(ActivityMain.this,ActivityConfig.class);
                 startActivity(intent2);
+                break;
+            case R.id.video_set:
+                Intent intent3=new Intent(ActivityMain.this,ActivityRecord.class);
+                startActivity(intent3);
+                break;
+            case R.id.snapskip:
+                List<Student> studentInfo=new ArrayList<>();
+                Student student;
+                String path = Environment.getExternalStorageDirectory() + "/studentInfo.doc";
+                File file = new File(path);
+                cursor=studentDAL.selectAllStudent();
+                while (cursor.moveToNext()){
+                    /*student=new Student(cursor.getBlob(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5));
+                    studentInfo.add(student);*/
+                    try{
+                        RandomAccessFile accessFile=new RandomAccessFile(file,"rw");
+                        accessFile.seek(file.length());
+                        accessFile.write((cursor.getString(2)+cursor.getString(3)+cursor.getString(4)+cursor.getString(5)+'\n').getBytes());
+                        /*outputStream=openFileOutput("studentInfo",MODE_APPEND);
+                        //outputStream.write((cursor.getString(2)+cursor.getString(3)+cursor.getString(4)+cursor.getString(5)+'\n').getBytes());
+                        PrintStream printStream=new PrintStream(outputStream);
+                        printStream.append(cursor.getString(2)+cursor.getString(3)+cursor.getString(4)+cursor.getString(5)+'\n');
+                        outputStream.close();
+                        printStream.close();*/
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+                Intent email = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                //email.setType("application/octet-stream");
+                //email.setData(Uri.parse("mailto:"));
+                email.setType("message/rfc882");
+                String[] emailReciver = new String[]{"2075853304@qq.com"};
+                String  emailTitle = "学生信息";
+                String emailContent = "内容";
+
+                File tmpFile = new File(Environment.getExternalStorageDirectory().toString(), "studentInfo.doc");
+                if(tmpFile.exists()){
+                    email.putExtra(android.content.Intent.EXTRA_EMAIL, emailReciver);
+                    email.putExtra(android.content.Intent.EXTRA_SUBJECT, emailTitle);
+                    email.putExtra(android.content.Intent.EXTRA_TEXT, emailContent);
+                    email.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(tmpFile));
+                }
+                startActivity(Intent.createChooser(email,"Choose Email Client"));
+                break;
+            case R.id.weather_serach:
+                Intent weather=new Intent(ActivityMain.this,ActivityWeather.class);
+                startActivity(weather);
                 break;
         }
         return true;

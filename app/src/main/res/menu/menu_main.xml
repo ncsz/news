@@ -11,5 +11,15 @@
     <item android:id="@+id/config"
         android:title="应用设置">
     </item>
+    <item android:id="@+id/video_set"
+        android:title="音效设置">
+    </item>
+    <item android:id="@+id/snapskip"
+        android:title="备份">
+    </item>
+    <item android:id="@+id/weather_serach"
+        android:title="天气预报">
+
+    </item>
 </group>
 </menu>

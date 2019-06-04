@@ -1,38 +1,20 @@
 package com.example.asus.studentmgr;
-
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.app.VoiceInteractor;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,16 +29,13 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
+import com.example.asus.studentmgr.View.ToastView;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectStreamException;
 import java.io.PrintStream;
-import java.util.List;
-
-import static com.example.asus.studentmgr.Service.ClipboardMonitorService.HAS_STUDENT_RECORD;
-import static com.example.asus.studentmgr.test.RC_CHOOSE_PHOTO;
 
 /**
  * Created by asus on 2019/4/17.
@@ -74,7 +53,6 @@ public  class ActivityStudent extends Activity implements View.OnClickListener{
     private Student studentEdit,studentTakeValue;
     private String ID;
     private int position;
-    //private AlertDialog.Builder builder;
     private TextView birthday;
     private CustomDatePicker  chooseDate;
     private InputMethodManager inputMethodManager;
@@ -82,10 +60,11 @@ public  class ActivityStudent extends Activity implements View.OnClickListener{
     private Button readIntroduce;
     private Button writeIntroduce;
     private ImageView headImage;
-    View decorView;
+    private View decorView;
     float downX;
     float screenWidth, screenHeight;
     final String FILE_NAME="introduce.txt";
+    private MediaPlayer mediaPlayer=new MediaPlayer();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
@@ -112,8 +91,14 @@ public  class ActivityStudent extends Activity implements View.OnClickListener{
         if(studentTakeValue!=null){
             SetView(studentTakeValue);
         }
-        if(test.bitmap!=null){
-            headImage.setImageBitmap(test.bitmap);
+        if(ActivityPhoto.bitmap!=null){
+            headImage.setImageBitmap(ActivityPhoto.bitmap);
+            ActivityPhoto.bitmap=null;
+        }
+        if(ActivityDraw.bitmap!=null){
+            headImage.setImageBitmap(ActivityDraw.bitmap);
+            headImage.setBackgroundColor(Color.WHITE);
+            ActivityDraw.bitmap=null;
         }
         readIntroduce.setOnClickListener(new readClickListener());
         writeIntroduce.setOnClickListener(new writeClickListener());
@@ -122,30 +107,62 @@ public  class ActivityStudent extends Activity implements View.OnClickListener{
         findViewById(R.id.chooseDate).setOnClickListener(this);
         initDatePicker();
         getScreenInfor();
-        final RecyclerView recyclerView=findViewById(R.id.recycler);
         headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ContextCompat.checkSelfPermission(ActivityStudent.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
-                    //未授权，申请授权(从相册选择图片需要读取存储卡的权限)
-                    ActivityCompat.requestPermissions(ActivityStudent.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, RC_CHOOSE_PHOTO);
-                }
-                else {
-                    Intent intent1=new Intent(ActivityStudent.this,test.class);
-                    startActivity(intent1);
-                }
+                Bottom_Dialog.showBottomDialog(ActivityStudent.this);
             }
         });
     }
     private class btnSumbitOnclickListener implements View.OnClickListener{
         public void onClick(View v){
             FindView();
+            String TakePicFileName = "sound1.amr";
+            String TakePicFileName1="sound2.amr";
+            String TakePicFilePath = Environment.getExternalStorageDirectory().toString();
             if(editTextID.getText().toString().trim().equals("")||editTextName.getText().toString().trim().equals("")){
-                /*ErrorInforDialog();
-                builder.show();*/
+                File tmpFile = new File(TakePicFilePath, TakePicFileName);
+                if(!tmpFile.exists()){
+                    try{
+                        mediaPlayer=MediaPlayer.create(ActivityStudent.this,R.raw.fail);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Uri uri = Uri.fromFile(tmpFile);
+                    try{
+                        mediaPlayer.setDataSource(ActivityStudent.this,uri);
+                        mediaPlayer.prepare();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                mediaPlayer.start();
                 ToastView.ShowText(ActivityStudent.this,"提交失败，请确认输入内容不为空",0,false);
             }
             else {
+                File tmpFile = new File(TakePicFilePath, TakePicFileName1);
+                if(!tmpFile.exists()){
+                    try{
+                        mediaPlayer=MediaPlayer.create(ActivityStudent.this,R.raw.success);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    Uri uri = Uri.fromFile(tmpFile);
+                    try{
+                        mediaPlayer.setDataSource(ActivityStudent.this,uri);
+                        mediaPlayer.prepare();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
                 ToastView.ShowText(ActivityStudent.this,"  提交成功  ",0,true);
                 Intent intent = new Intent(ActivityStudent.this, ActivityMain.class);
                 sendValue(intent,"student","EditID");
@@ -156,23 +173,15 @@ public  class ActivityStudent extends Activity implements View.OnClickListener{
     }
     private void sendValue(Intent intent,String extra1,String extra2){
         Bundle bundle = new Bundle();
-        bundle.putSerializable(extra1,new Student(getBitmapByte(headImage.getDrawable()),editTextID.getText().toString(),editTextName.getText().toString(),spinnerCollege.getSelectedItem().toString(),spinnerMajor.getSelectedItem().toString()));
+        bundle.putSerializable(extra1,new Student(getBitmapByte(headImage),editTextID.getText().toString(),editTextName.getText().toString(),spinnerCollege.getSelectedItem().toString(),spinnerMajor.getSelectedItem().toString()));
         bundle.putInt(extra2,position);
         intent.putExtras(bundle);
     }
-    private byte[] getBitmapByte(Drawable drawable) {
-        if(drawable==null){
-            drawable=getResources().getDrawable(R.drawable.add);
-        }
-        Bitmap bitmap = Bitmap.createBitmap(
-                drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(),
-                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-                        : Bitmap.Config.RGB_565);
-        Canvas canvas = new Canvas(bitmap);
-        //canvas.setBitmap(bitmap);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        drawable.draw(canvas);
+    private byte[] getBitmapByte(ImageView view) {
+       /*view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+       view.layout(0,0,view.getMeasuredWidth(),view.getMeasuredHeight());*/
+        view.buildDrawingCache();
+        Bitmap bitmap=view.getDrawingCache();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         return baos.toByteArray();

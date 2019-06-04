@@ -1,6 +1,5 @@
 package com.example.asus.studentmgr;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
@@ -21,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.asus.studentmgr.View.ToastView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,7 +100,7 @@ public class ActivityPhonePlace extends SizeConfig {
                 if (TextUtils.isEmpty(phoneNumber)) {
                     ToastView.ShowText(ActivityPhonePlace.this,getString(R.string.input_no_empty), Toast.LENGTH_LONG,ScreenSize.getScreenWidth(),ScreenSize.getScreenHeight());
                 } else {
-                    hideKeyboard(phoneNumberInputing);
+                    //hideKeyboard(phoneNumberInputing);
                     url = url + "?tel=" + phoneNumber;
                     new PhoneThread(url, phoneNumber).start();
                 }

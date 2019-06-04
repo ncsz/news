@@ -27,12 +27,14 @@ public class ImageFinder {
         List<ImageInfor> list = new ArrayList<>();
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
-        while (cursor.moveToNext()){
+        int count=1;
+        while (cursor.moveToNext()&&count<=12){
             String name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
             String type = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE));
             if (type.equals(shield)) continue;
             list.add(0,new ImageInfor(path,name));
+            count++;
         }
         List<Bitmap> bitmaps=new ArrayList<Bitmap>();
         for(int i=0;i<list.size();i++){

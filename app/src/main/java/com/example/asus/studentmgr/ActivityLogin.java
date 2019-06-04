@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.example.asus.studentmgr.Service.ClipboardMonitorService;
 import com.example.asus.studentmgr.Service.StudentRecordBroadcastReceiver;
 
@@ -33,6 +32,7 @@ public class ActivityLogin extends SizeConfig {
     private Intent intent;
 
     public void onCreate(Bundle savedInstanceState){
+        Permission.setPermission(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         button=findViewById(R.id.button);
@@ -57,6 +57,7 @@ public class ActivityLogin extends SizeConfig {
                             Intent intent=new Intent(ActivityLogin.this,ActivityAds.class);
                             progressDialog.dismiss();
                             startActivity(intent);
+                            finish();
                         }
                         else {
                             progressDialog.dismiss();

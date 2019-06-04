@@ -1,4 +1,4 @@
-package com.example.asus.studentmgr;
+package com.example.asus.studentmgr.View;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.asus.studentmgr.R;
 
 /**
  * Created by asus on 2019/3/17.

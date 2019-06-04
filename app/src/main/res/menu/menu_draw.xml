@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/reset" android:title="重置">
+        </item>
+        <item android:id="@+id/set_head_image" android:title="设置为头像">
+
+        </item>
+    </group>
+</menu>
